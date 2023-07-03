@@ -5,7 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { Amplify } from "aws-amplify";
 import { withAuthenticator } from "aws-amplify-react-native";
 import awsExports from "./src/aws-exports";
-Amplify.configure(awsExports);
+Amplify.configure({ ...awsExports, Analytics: { disabled: true } });
 
 function App() {
   return (
