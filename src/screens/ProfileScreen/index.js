@@ -1,14 +1,41 @@
-import { View, Text, TextInput, StyleSheet, Button } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  Pressable,
+  Alert,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Auth } from "aws-amplify";
+import { DataStore } from "@aws-amplify/datastore";
+import { User } from "../../models";
+import { useAuthContext } from "../../contexts/AuthContext";
+
 const Profile = () => {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [lat, setLat] = useState("0");
   const [lng, setLng] = useState("0");
+  const { sub, setDbuser } = useAuthContext();
+  const onSave = async () => {
+    try {
+      const user = await DataStore.save(
+        new User({
+          name: name,
+          address: address,
+          latitude: parseFloat(lat),
+          longitude: parseFloat(lng),
+          sub: sub,
+        })
+      );
 
-  const onSave = () => {};
+      setDbuser(user);
+    } catch (e) {
+      Alert.alert("Error", e.message);
+    }
+  };
 
   return (
     <SafeAreaView>
@@ -38,8 +65,40 @@ const Profile = () => {
         placeholder="Longitude"
         style={styles.input}
       />
-      <Button onPress={onSave} title="Save" />
-      <Button onPress={() => Auth.signOut()} title="Sign Out" />
+      <Pressable
+        onPress={onSave}
+        style={({ pressed }) => [
+          { backgroundColor: pressed ? "blue" : "cornflowerblue", margin: 20 },
+        ]}
+      >
+        <Text
+          style={{
+            textAlign: "center",
+            color: "white",
+            margin: 10,
+            fontSize: 18,
+            fontWeight: "bold",
+          }}
+        >
+          Save
+        </Text>
+      </Pressable>
+      <Pressable
+        onPress={() => Auth.signOut()}
+        style={{ backgroundColor: "lightgray", margin: 20 }}
+      >
+        <Text
+          style={{
+            textAlign: "center",
+            color: "red",
+            margin: 10,
+            fontSize: 18,
+            fontWeight: "bold",
+          }}
+        >
+          Sign Out
+        </Text>
+      </Pressable>
     </SafeAreaView>
   );
 };
