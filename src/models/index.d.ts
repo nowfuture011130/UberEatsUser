@@ -59,8 +59,8 @@ type EagerOrderDish = {
   };
   readonly id: string;
   readonly quantity: number;
-  readonly Dish?: Dish | null;
   readonly orderID: string;
+  readonly Dish?: Dish | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly orderDishDishId?: string | null;
@@ -73,8 +73,8 @@ type LazyOrderDish = {
   };
   readonly id: string;
   readonly quantity: number;
-  readonly Dish: AsyncItem<Dish | undefined>;
   readonly orderID: string;
+  readonly Dish: AsyncItem<Dish | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly orderDishDishId?: string | null;
@@ -92,11 +92,11 @@ type EagerOrder = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly Restaurant?: Restaurant | null;
   readonly total: number;
   readonly status: OrderStatus | keyof typeof OrderStatus;
   readonly OrderDishes?: (OrderDish | null)[] | null;
   readonly user2ID: string;
+  readonly Restaurant?: Restaurant | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly orderRestaurantId?: string | null;
@@ -108,11 +108,11 @@ type LazyOrder = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly Restaurant: AsyncItem<Restaurant | undefined>;
   readonly total: number;
   readonly status: OrderStatus | keyof typeof OrderStatus;
   readonly OrderDishes: AsyncCollection<OrderDish>;
   readonly user2ID: string;
+  readonly Restaurant: AsyncItem<Restaurant | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly orderRestaurantId?: string | null;
@@ -131,8 +131,8 @@ type EagerBasketDish = {
   };
   readonly id: string;
   readonly quantity: number;
-  readonly Dish?: Dish | null;
   readonly basketID: string;
+  readonly Dish?: Dish | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly basketDishDishId?: string | null;
@@ -145,8 +145,8 @@ type LazyBasketDish = {
   };
   readonly id: string;
   readonly quantity: number;
-  readonly Dish: AsyncItem<Dish | undefined>;
   readonly basketID: string;
+  readonly Dish: AsyncItem<Dish | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly basketDishDishId?: string | null;
@@ -165,8 +165,8 @@ type EagerBasket = {
   };
   readonly id: string;
   readonly BasketDishes?: (BasketDish | null)[] | null;
-  readonly restaurantID: string;
   readonly user2ID: string;
+  readonly restaurantID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -178,8 +178,8 @@ type LazyBasket = {
   };
   readonly id: string;
   readonly BasketDishes: AsyncCollection<BasketDish>;
-  readonly restaurantID: string;
   readonly user2ID: string;
+  readonly restaurantID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

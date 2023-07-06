@@ -136,6 +136,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "orderID": {
+                    "name": "orderID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "Dish": {
                     "name": "Dish",
                     "isArray": false,
@@ -153,13 +160,6 @@ export const schema = {
                             "orderDishDishId"
                         ]
                     }
-                },
-                "orderID": {
-                    "name": "orderID",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -229,24 +229,6 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "Restaurant": {
-                    "name": "Restaurant",
-                    "isArray": false,
-                    "type": {
-                        "model": "Restaurant"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "HAS_ONE",
-                        "associatedWith": [
-                            "id"
-                        ],
-                        "targetNames": [
-                            "orderRestaurantId"
-                        ]
-                    }
-                },
                 "total": {
                     "name": "total",
                     "isArray": false,
@@ -285,6 +267,24 @@ export const schema = {
                     "type": "ID",
                     "isRequired": true,
                     "attributes": []
+                },
+                "Restaurant": {
+                    "name": "Restaurant",
+                    "isArray": false,
+                    "type": {
+                        "model": "Restaurant"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": [
+                            "id"
+                        ],
+                        "targetNames": [
+                            "orderRestaurantId"
+                        ]
+                    }
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -361,6 +361,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "basketID": {
+                    "name": "basketID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "Dish": {
                     "name": "Dish",
                     "isArray": false,
@@ -378,13 +385,6 @@ export const schema = {
                             "basketDishDishId"
                         ]
                     }
-                },
-                "basketID": {
-                    "name": "basketID",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -470,15 +470,15 @@ export const schema = {
                         ]
                     }
                 },
-                "restaurantID": {
-                    "name": "restaurantID",
+                "user2ID": {
+                    "name": "user2ID",
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
                     "attributes": []
                 },
-                "user2ID": {
-                    "name": "user2ID",
+                "restaurantID": {
+                    "name": "restaurantID",
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
@@ -511,18 +511,18 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
-                        "name": "byRestaurant",
+                        "name": "byUser2",
                         "fields": [
-                            "restaurantID"
+                            "user2ID"
                         ]
                     }
                 },
                 {
                     "type": "key",
                     "properties": {
-                        "name": "byUser2",
+                        "name": "byRestaurant",
                         "fields": [
-                            "user2ID"
+                            "restaurantID"
                         ]
                     }
                 },
