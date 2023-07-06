@@ -1,13 +1,30 @@
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import { useEffect, useState } from "react";
+import { DataStore } from "@aws-amplify/datastore";
+import { Dish } from "../../models";
 
 const BasketDishItem = ({ basketDish }) => {
+  const [dish, setDish] = useState(null);
+
+  const getDish = async () => {
+    const theDish = await DataStore.query(Dish, (c) =>
+      c.id.eq(basketDish.basketDishDishId)
+    ).then((dish) => setDish(dish[0]));
+  };
+
+  useEffect(() => {
+    getDish();
+  }, [basketDish]);
+
   return (
     <View style={styles.row}>
       <View style={styles.quantityContainer}>
-        <Text>1</Text>
+        <Text>{basketDish.quantity}</Text>
       </View>
-      <Text style={{ fontWeight: "600" }}>{basketDish.name}</Text>
-      <Text style={{ marginLeft: "auto" }}>$ {basketDish.price}</Text>
+      <Text style={{ fontWeight: "600" }}>{dish?.name}</Text>
+      <Text style={{ marginLeft: "auto" }}>
+        $ {(dish?.price * basketDish.quantity).toFixed(2)}
+      </Text>
     </View>
   );
 };
