@@ -12,44 +12,44 @@ export enum OrderStatus {
 
 
 
-type EagerUser = {
+type EagerUser2 = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<User, 'id'>;
+    identifier: ManagedIdentifier<User2, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly name: string;
-  readonly address: string;
-  readonly latitude: number;
-  readonly longitude: number;
-  readonly sub: string;
+  readonly name?: string | null;
+  readonly address?: string | null;
+  readonly lat?: number | null;
+  readonly lng?: number | null;
+  readonly sub?: string | null;
   readonly Orders?: (Order | null)[] | null;
   readonly Baskets?: (Basket | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-type LazyUser = {
+type LazyUser2 = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<User, 'id'>;
+    identifier: ManagedIdentifier<User2, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly name: string;
-  readonly address: string;
-  readonly latitude: number;
-  readonly longitude: number;
-  readonly sub: string;
+  readonly name?: string | null;
+  readonly address?: string | null;
+  readonly lat?: number | null;
+  readonly lng?: number | null;
+  readonly sub?: string | null;
   readonly Orders: AsyncCollection<Order>;
   readonly Baskets: AsyncCollection<Basket>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-export declare type User = LazyLoading extends LazyLoadingDisabled ? EagerUser : LazyUser
+export declare type User2 = LazyLoading extends LazyLoadingDisabled ? EagerUser2 : LazyUser2
 
-export declare const User: (new (init: ModelInit<User>) => User) & {
-  copyOf(source: User, mutator: (draft: MutableModel<User>) => MutableModel<User> | void): User;
+export declare const User2: (new (init: ModelInit<User2>) => User2) & {
+  copyOf(source: User2, mutator: (draft: MutableModel<User2>) => MutableModel<User2> | void): User2;
 }
 
 type EagerOrderDish = {
@@ -96,7 +96,7 @@ type EagerOrder = {
   readonly total: number;
   readonly status: OrderStatus | keyof typeof OrderStatus;
   readonly OrderDishes?: (OrderDish | null)[] | null;
-  readonly userID: string;
+  readonly user2ID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly orderRestaurantId?: string | null;
@@ -112,7 +112,7 @@ type LazyOrder = {
   readonly total: number;
   readonly status: OrderStatus | keyof typeof OrderStatus;
   readonly OrderDishes: AsyncCollection<OrderDish>;
-  readonly userID: string;
+  readonly user2ID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly orderRestaurantId?: string | null;
@@ -166,7 +166,7 @@ type EagerBasket = {
   readonly id: string;
   readonly BasketDishes?: (BasketDish | null)[] | null;
   readonly restaurantID: string;
-  readonly userID: string;
+  readonly user2ID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -179,7 +179,7 @@ type LazyBasket = {
   readonly id: string;
   readonly BasketDishes: AsyncCollection<BasketDish>;
   readonly restaurantID: string;
-  readonly userID: string;
+  readonly user2ID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

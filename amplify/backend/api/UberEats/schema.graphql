@@ -1,12 +1,12 @@
-type User @model @auth(rules: [{allow: public}]) {
+type User2 @model @auth(rules: [{allow: public}]) {
   id: ID!
-  name: String!
-  address: String!
-  latitude: Float!
-  longitude: Float!
-  sub: String!
-  Orders: [Order] @hasMany(indexName: "byUser", fields: ["id"])
-  Baskets: [Basket] @hasMany(indexName: "byUser", fields: ["id"])
+  name: String
+  address: String
+  lat: Float
+  lng: Float
+  sub: String
+  Orders: [Order] @hasMany(indexName: "byUser2", fields: ["id"])
+  Baskets: [Basket] @hasMany(indexName: "byUser2", fields: ["id"])
 }
 
 enum OrderStatus {
@@ -30,7 +30,7 @@ type Order @model @auth(rules: [{allow: public}]) {
   total: Float!
   status: OrderStatus!
   OrderDishes: [OrderDish] @hasMany(indexName: "byOrder", fields: ["id"])
-  userID: ID! @index(name: "byUser")
+  user2ID: ID! @index(name: "byUser2")
 }
 
 type BasketDish @model @auth(rules: [{allow: public}]) {
@@ -44,7 +44,7 @@ type Basket @model @auth(rules: [{allow: public}]) {
   id: ID!
   BasketDishes: [BasketDish] @hasMany(indexName: "byBasket", fields: ["id"])
   restaurantID: ID! @index(name: "byRestaurant")
-  userID: ID! @index(name: "byUser")
+  user2ID: ID! @index(name: "byUser2")
 }
 
 type Dish @model @auth(rules: [{allow: public}]) {

@@ -10,33 +10,70 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Auth } from "aws-amplify";
 import { DataStore } from "@aws-amplify/datastore";
-import { User } from "../../models";
+import { User2 } from "../../models";
 import { useAuthContext } from "../../contexts/AuthContext";
+import { useNavigation } from "@react-navigation/native";
 
 const Profile = () => {
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [lat, setLat] = useState("0");
-  const [lng, setLng] = useState("0");
-  const { sub, setDbuser } = useAuthContext();
+  const { sub, setDbuser, dbUser } = useAuthContext();
+
+  const [name, setName] = useState(dbUser ? dbUser.name : "");
+  const [address, setAddress] = useState(dbUser ? dbUser.address : "");
+  const [lat, setLat] = useState(dbUser ? dbUser.lat + "" : "0");
+  const [lng, setLng] = useState(dbUser ? dbUser.lng + "" : "0");
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const update = DataStore.observeQuery(User2, (c) =>
+      c.sub.eq(sub)
+    ).subscribe(({ items }) => {
+      setDbuser(items[0]);
+    });
+
+    return () => {
+      update.unsubscribe();
+    };
+  }, []);
+
   const onSave = async () => {
+    if (dbUser) {
+      await updateUser();
+    } else {
+      await createUser();
+    }
+    navigation.goBack();
+  };
+  const updateUser = async () => {
+    console.log(dbUser);
+    const user = await DataStore.save(
+      User2.copyOf(dbUser, (updated) => {
+        updated.name = name;
+        updated.address = address;
+        updated.lat = parseFloat(lat);
+        updated.lng = parseFloat(lng);
+      })
+    );
+  };
+  const createUser = async () => {
     try {
       const user = await DataStore.save(
-        new User({
+        new User2({
           name: name,
           address: address,
-          latitude: parseFloat(lat),
-          longitude: parseFloat(lng),
+          lat: parseFloat(lat),
+          lng: parseFloat(lng),
           sub: sub,
         })
       );
-
       setDbuser(user);
     } catch (e) {
       Alert.alert("Error", e.message);
     }
   };
 
+  const signoutPress = async () => {
+    Auth.signOut();
+  };
   return (
     <SafeAreaView>
       <Text style={styles.title}>Profile</Text>
@@ -84,7 +121,7 @@ const Profile = () => {
         </Text>
       </Pressable>
       <Pressable
-        onPress={() => Auth.signOut()}
+        onPress={signoutPress}
         style={{ backgroundColor: "lightgray", margin: 20 }}
       >
         <Text
