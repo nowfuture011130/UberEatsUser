@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { DataStore } from "@aws-amplify/datastore";
 import "@azure/core-asynciterator-polyfill";
-import { Basket, BasketDish } from "../models";
+import { Basket, BasketDish, Dish } from "../models";
 import { useAuthContext } from "./AuthContext";
 
 const Context = createContext({});
@@ -11,6 +11,17 @@ const basketContext = ({ children }) => {
   const [restaurant, setRestaurant] = useState(null);
   const [basket, setBasket] = useState(null);
   const [basketDishes, setBasketDishes] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const getTotalPrice = async () => {
+    let totalprice = restaurant?.deliveryFee;
+    for (let i = 0; i < basketDishes.length; ++i) {
+      const theDish = await DataStore.query(Dish, (c) =>
+        c.id.eq(basketDishes[i].basketDishDishId)
+      );
+      totalprice += theDish[0].price * basketDishes[i].quantity;
+    }
+    setTotalPrice(totalprice);
+  };
 
   useEffect(() => {
     if (restaurant)
@@ -30,6 +41,10 @@ const basketContext = ({ children }) => {
     }
   }, [basket]);
 
+  useEffect(() => {
+    getTotalPrice();
+  }, [basketDishes]);
+
   const createNewBasket = async () => {
     const newbasket = await DataStore.save(
       new Basket({ user2ID: dbUser.id, restaurantID: restaurant.id })
@@ -45,6 +60,7 @@ const basketContext = ({ children }) => {
       new BasketDish({ quantity, Dish: dish, basketID: theBasket.id })
     );
     setBasketDishes([...basketDishes, newDish]);
+    // getTotalPrice();
   };
 
   return (
@@ -55,6 +71,7 @@ const basketContext = ({ children }) => {
         setRestaurant,
         basket,
         basketDishes,
+        totalPrice,
       }}
     >
       {children}
