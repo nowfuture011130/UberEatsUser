@@ -39,7 +39,7 @@ const basketContext = ({ children }) => {
         setBasketDishes
       );
     }
-  }, [basket]);
+  }, [basket, basketDishes]);
 
   useEffect(() => {
     getTotalPrice();
@@ -59,7 +59,11 @@ const basketContext = ({ children }) => {
     const newDish = await DataStore.save(
       new BasketDish({ quantity, Dish: dish, basketID: theBasket.id })
     );
-    setBasketDishes([...basketDishes, newDish]);
+    if (basket) {
+      DataStore.query(BasketDish, (bd) => bd.basketID.eq(basket.id)).then(
+        setBasketDishes
+      );
+    }
     // getTotalPrice();
   };
 
