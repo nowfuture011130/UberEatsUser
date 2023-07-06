@@ -72,6 +72,7 @@ const Profile = () => {
   };
 
   const signoutPress = async () => {
+    DataStore.clear();
     Auth.signOut();
   };
   return (

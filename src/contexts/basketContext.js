@@ -23,6 +23,18 @@ const basketContext = ({ children }) => {
     setTotalPrice(totalprice);
   };
 
+  // useEffect(() => {
+  //   const sub = DataStore.observeQuery(Basket, (c) =>
+  //     c.id.eq(basket.id)
+  //   ).subscribe(({ items }) => {
+  //     setBasket(items[0]);
+  //   });
+
+  //   return () => {
+  //     sub.unsubscribe();
+  //   };
+  // }, []);
+
   useEffect(() => {
     if (restaurant)
       DataStore.query(Basket, (a) =>
