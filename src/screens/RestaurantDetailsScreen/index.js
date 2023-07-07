@@ -76,7 +76,7 @@ const RestaurantDetailsPage = () => {
         color="white"
         style={styles.iconContainer}
       />
-      {basket && (
+      {basketDishes.length > 0 && (
         <Pressable
           onPress={() => navigation.navigate("Basket")}
           style={styles.button}

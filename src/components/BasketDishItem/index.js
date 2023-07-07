@@ -8,7 +8,7 @@ const BasketDishItem = ({ basketDish }) => {
 
   const getDish = async () => {
     const theDish = await DataStore.query(Dish, (c) =>
-      c.id.eq(basketDish.basketDishDishId)
+      c.id.eq(basketDish.orderDishDishId)
     ).then((dish) => setDish(dish[0]));
   };
 

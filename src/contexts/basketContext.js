@@ -16,7 +16,7 @@ const basketContext = ({ children }) => {
     let totalprice = restaurant?.deliveryFee;
     for (let i = 0; i < basketDishes.length; ++i) {
       const theDish = await DataStore.query(Dish, (c) =>
-        c.id.eq(basketDishes[i].basketDishDishId)
+        c.id.eq(basketDishes[i].dishID)
       );
       totalprice += theDish[0].price * basketDishes[i].quantity;
     }
@@ -69,7 +69,7 @@ const basketContext = ({ children }) => {
     let theBasket = basket || (await createNewBasket());
 
     const newDish = await DataStore.save(
-      new BasketDish({ quantity, Dish: dish, basketID: theBasket.id })
+      new BasketDish({ quantity, dishID: dish.id, basketID: theBasket.id })
     );
     if (basket) {
       DataStore.query(BasketDish, (bd) => bd.basketID.eq(basket.id)).then(

@@ -37,7 +37,7 @@ type BasketDish @model @auth(rules: [{allow: public}]) {
   id: ID!
   quantity: Int!
   basketID: ID! @index(name: "byBasket")
-  Dish: Dish @hasOne
+  dishID: ID! @index(name: "byDish")
 }
 
 type Basket @model @auth(rules: [{allow: public}]) {
@@ -54,6 +54,7 @@ type Dish @model @auth(rules: [{allow: public}]) {
   description: String
   price: Float!
   restaurantID: ID! @index(name: "byRestaurant")
+  BasketDishes: [BasketDish] @hasMany(indexName: "byDish", fields: ["id"])
 }
 
 type Restaurant @model @auth(rules: [{allow: public}]) {
