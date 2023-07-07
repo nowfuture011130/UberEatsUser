@@ -1,15 +1,25 @@
 import { View, Text, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 import { DataStore } from "@aws-amplify/datastore";
-import { Dish } from "../../models";
-
+import { Dish, BasketDish } from "../../models";
+import { MaterialIcons } from "@expo/vector-icons";
 const BasketDishItem = ({ basketDish }) => {
   const [dish, setDish] = useState(null);
 
   const getDish = async () => {
-    const theDish = await DataStore.query(Dish, (c) =>
-      c.id.eq(basketDish.orderDishDishId)
-    ).then((dish) => setDish(dish[0]));
+    if (basketDish.dishID) {
+      const theDish = await DataStore.query(Dish, (c) =>
+        c.id.eq(basketDish.dishID)
+      ).then((dish) => setDish(dish[0]));
+    } else {
+      const theDish = await DataStore.query(Dish, (c) =>
+        c.id.eq(basketDish.orderDishDishId)
+      ).then((dish) => setDish(dish[0]));
+    }
+  };
+
+  const deletePress = () => {
+    DataStore.delete(basketDish);
   };
 
   useEffect(() => {
@@ -18,6 +28,15 @@ const BasketDishItem = ({ basketDish }) => {
 
   return (
     <View style={styles.row}>
+      {basketDish.dishID && (
+        <MaterialIcons
+          name="delete"
+          size={24}
+          color="black"
+          onPress={deletePress}
+          style={{ paddingRight: 8 }}
+        />
+      )}
       <View style={styles.quantityContainer}>
         <Text>{basketDish.quantity}</Text>
       </View>
@@ -34,7 +53,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginVertical: 15,
-    paddingHorizontal: 10,
   },
 
   quantityContainer: {
