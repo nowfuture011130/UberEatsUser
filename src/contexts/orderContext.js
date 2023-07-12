@@ -33,6 +33,7 @@ const OrderContextProvider = ({ children }) => {
         Restaurant: restaurant,
         status: "NEW",
         total: totalPrice,
+        driverID: "null",
       })
     );
 
