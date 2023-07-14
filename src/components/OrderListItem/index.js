@@ -6,7 +6,9 @@ import { useEffect, useState } from "react";
 
 const OrderListItem = ({ order }) => {
   const navigation = useNavigation();
-
+  const onPress = () => {
+    navigation.navigate("OrderDetail", { id: order.id });
+  };
   const [restaurant, setRestaurant] = useState();
 
   useEffect(() => {
@@ -34,7 +36,7 @@ const OrderListItem = ({ order }) => {
   }
   return (
     <Pressable
-      onPress={() => navigation.navigate("OrderDetail", { id: order.id })}
+      onPress={onPress}
       style={{ flexDirection: "row", margin: 10, alignItems: "center" }}
     >
       <Image

@@ -36,13 +36,12 @@ const basketContext = ({ children }) => {
   // }, []);
 
   useEffect(() => {
-    if (restaurant)
-      DataStore.query(Basket, (a) =>
-        a.and((a) => [
-          a.restaurantID.eq(restaurant.id),
-          a.user2ID.eq(dbUser.id),
-        ])
-      ).then((basket) => setBasket(basket[0]));
+    if (!restaurant || !dbUser) {
+      return;
+    }
+    DataStore.query(Basket, (a) =>
+      a.and((a) => [a.restaurantID.eq(restaurant.id), a.user2ID.eq(dbUser.id)])
+    ).then((basket) => setBasket(basket[0]));
   }, [dbUser, restaurant]);
 
   useEffect(() => {

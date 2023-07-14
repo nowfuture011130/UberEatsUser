@@ -10,6 +10,7 @@ import ProfileScreen from "../screens/ProfileScreen";
 import { useAuthContext } from "../contexts/AuthContext";
 
 import { Foundation, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
+import OrderDetailNavigator from "./OrderDetailsNavigator";
 
 const Stack = createNativeStackNavigator();
 
@@ -86,7 +87,11 @@ const OrderStackNavigator = () => {
   return (
     <OrdersStack.Navigator>
       <OrdersStack.Screen name="Order" component={OrdersScreen} />
-      <OrdersStack.Screen name="OrderDetail" component={OrderDetails} />
+      <OrdersStack.Screen
+        name="OrderDetail"
+        component={OrderDetailNavigator}
+        screenOptions={{ headerShown: false }}
+      />
     </OrdersStack.Navigator>
   );
 };
